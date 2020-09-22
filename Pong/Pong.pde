@@ -6,11 +6,13 @@ class PongPaddle{
   }
   
   void draw(){  //Create Paddle
-    rect(x,y,10,150);
+    rectMode(CENTER);
+    rect(x,y,20,150);
   }
   
-  void move(char direction){//Move Paddle up or down
-  
+  void move(int yPos){//Move Paddle up or down
+    y = yPos;
+    
   }
 }
 
@@ -21,7 +23,8 @@ class PongBall{
   int direction;  // 1 represent ball go right or -1 represent ball go left
   
   void draw(){  // drawing ball
-  circle(x,y,50);
+  ellipseMode(CENTER);
+  ellipse(x,y,50,50);
   }
   
   void move(){ //Move ping-pong ball
@@ -33,16 +36,18 @@ class PongBall{
 
 class PongGame{
   void draw(){  //Draw table and scoreboard
-    rect(width/2-5,0,10,height);
+    rect(width/2,height/2,10,height);
   }
   
   void startGame(){  //Run ping-pong game
   }
 }
+
 PongPaddle p1;
 PongPaddle p2;
 PongBall b1 = new PongBall();
 PongGame engine = new PongGame();
+
 void setup(){
   background(0);
   size(600,600);
@@ -50,8 +55,17 @@ void setup(){
   p2 = new PongPaddle(width-10,height/2);
 }
 void draw(){
+  background(0);
   engine.draw();
   p1.draw();
   p2.draw();
   b1.draw();
+}
+void mouseDragged(){
+  if(mouseX>p1.x-5 && mouseX < p1.x+20 && mouseY> p1.y-100 && mouseY< p1.y+100){
+    p1.move(mouseY);
+    println("hi");
+  }else if(mouseX>p2.x-5 && mouseX < p2.x+5 && mouseY> p2.y-75 && mouseY< p2.y+75){
+    p2.move(mouseY);
+  }
 }
