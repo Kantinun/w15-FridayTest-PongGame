@@ -6,7 +6,7 @@ class PongPaddle{
   }
   
   void draw(){  //Create Paddle
-    ellipse(x,y,10,100);
+    ellipse(x,y,10,150);
   }
   
   void move(char direction){  //Move Paddle up or down
@@ -31,16 +31,23 @@ class PongBall{
 
 class PongGame{
   void draw(){  //Draw table and scoreboard
+    rect(width/2,0,10,height);
   }
   
   void startGame(){  //Run ping-pong game
   }
 }
 PongPaddle p1;
+PongPaddle p2;
+PongGame engine = new PongGame();
 void setup(){
+  background(0);
   size(600,600);
   p1 = new PongPaddle(10,height/2);
+  p2 = new PongPaddle(width-10,height/2);
 }
 void draw(){
+  engine.draw();
   p1.draw();
+  p2.draw();
 }
