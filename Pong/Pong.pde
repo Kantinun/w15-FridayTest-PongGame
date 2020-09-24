@@ -13,17 +13,24 @@ class PongPaddle{
   void bouce_ball(PongBall ball){
     if((ball.x-35 == x || ball.x+35 == x)&& ball.y > y-75 && ball.y< y+75){
       ball.speedX *= -1;
-      ball.speedY *= -1;
+
     }
   }
 }
 
 class PongBall{
-  int x = 300;  //x-position of ping-pong ball
-  int y = 300; //y-position of ping-pong ball
-  int speedX = 5;
-  int speedY = 2;
+  int x ;  //x-position of ping-pong ball
+  int y ; //y-position of ping-pong ball
+  int speedX;  //Speed ball in dimention x 
+  int speedY;  //Speed ball in dimention y
   
+  PongBall(){
+    x = width/2;
+    y = height/2;
+    speedX = 5;
+    speedY = 2;
+    
+  }
   void draw(){  // drawing ball
   ellipseMode(CENTER);
   ellipse(x,y,50,50);
@@ -65,6 +72,11 @@ class PongGame{
     }
   }
   
+  void serveBall(int direction){
+    b1.x = width/2;
+    b1.speedX *= direction;
+  }
+  
   void startGame(){  //Run ping-pong game
       b1.move();
     
@@ -77,9 +89,13 @@ class PongGame{
         b1.speedY *= -1;
       }
     
-    //boucing ball when touch left or right screen
-      if(b1.x<0 || b1.x > width){
-        b1.speedX *= -1;
+    //Check score point
+      if(b1.x<0){
+        scoreP2 += 1;
+        serveBall(-1);
+      }else if(b1.x>width){
+        scoreP1 += 1;
+        serveBall(-1);
       }
   }
 }
