@@ -11,18 +11,16 @@ class PongPaddle{
   }
   
   void bouce_ball(PongBall ball){
-    if((ball.x-35 == x || ball.x+35 == x)&& ball.y > y-75 && ball.y< y+75){
-      ball.speedX *= -1;
-
-    }
+      ball.speedX *= -1.1;
+      ball.speedY *= 1.1;
   }
 }
 
 class PongBall{
   int x ;  //x-position of ping-pong ball
   int y ; //y-position of ping-pong ball
-  int speedX;  //Speed ball in dimention x 
-  int speedY;  //Speed ball in dimention y
+  float speedX;  //Speed ball in dimention x 
+  float speedY;  //Speed ball in dimention y
   
   PongBall(){
     x = width/2;
@@ -34,7 +32,6 @@ class PongBall{
   void draw(){  // drawing ball
   ellipseMode(CENTER);
   ellipse(x,y,50,50);
-  
   }
   
   void move(){ //Move ping-pong ball
@@ -44,11 +41,17 @@ class PongBall{
 }
 
 class PongGame{
-  int scoreP1 = 0;
-  int scoreP2 = 0;
-  PongBall b1 = new PongBall();
-  PongPaddle p1 = new PongPaddle(10,300);
-  PongPaddle p2 = new PongPaddle(590,300);
+  int scoreP1,scoreP2;
+  PongBall b1;
+  PongPaddle p1,p2;
+  
+  PongGame(){
+    scoreP1 = 0;
+    scoreP2 = 0;
+    b1 = new PongBall();
+    p1 = new PongPaddle(10,height/2);
+    p2 = new PongPaddle(width-10,height/2);
+  }
   
   void draw(){  //Draw game pong
     rect(width/2,height/2,10,height);  //Net
@@ -74,15 +77,20 @@ class PongGame{
   
   void serveBall(int direction){
     b1.x = width/2;
-    b1.speedX *= direction;
+    b1.y = height/2;
+    b1.speedX = 5*direction;
+    b1.speedY = 2;
   }
   
   void startGame(){  //Run ping-pong game
       b1.move();
     
     //bouce of paddle
-     p1.bouce_ball(b1);
-     p2.bouce_ball(b1);
+    if(b1.x<p1.x+35&& b1.y > p1.y-75 && b1.y< p1.y+75){
+       p1.bouce_ball(b1);
+     }else if(b1.x>p2.x-35&& b1.y > p2.y-75 && b1.y< p2.y+75){
+       p2.bouce_ball(b1);
+     }
     
     //boucing ball when touch top screen
      if(b1.y<0 || b1.y > height){
@@ -90,10 +98,10 @@ class PongGame{
       }
     
     //Check score point
-      if(b1.x<0){
+      if(b1.x<-50){
         scoreP2 += 1;
-        serveBall(-1);
-      }else if(b1.x>width){
+        serveBall(1);
+      }else if(b1.x>width+50){
         scoreP1 += 1;
         serveBall(-1);
       }
@@ -101,11 +109,12 @@ class PongGame{
 }
 
 
-PongGame engine = new PongGame();
+PongGame engine;
 
 void setup(){
   background(0);
   size(600,600);
+  engine = new PongGame();
 }
 void draw(){
   background(0);
