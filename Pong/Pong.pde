@@ -1,8 +1,10 @@
 class PongPaddle{
   int x,y;  //x,y of paddle
+  float coolDown;
   PongPaddle(int xPos, int yPos){
     x = xPos;
     y = yPos;
+    coolDown =2;
   }
   
   void draw(){  //Create Paddle
@@ -11,8 +13,10 @@ class PongPaddle{
   }
   
   void bouce_ball(PongBall ball){
-      ball.speedX *= -1.1;
-      ball.speedY *= 1.1;
+      ball.speedX *= -1.02;
+      ball.speedY *= 1.02;
+      coolDown =0;
+    
   }
 }
 
@@ -68,9 +72,9 @@ class PongGame{
   }
   
   void movePaddle(){
-    if(mouseX < width/3){
+    if(b1.speedX < 0){
       p1.y = mouseY;
-    }else if(mouseX > width - width/3){
+    }else if(b1.speedX > 0){
       p2.y = mouseY;
     }
   }
@@ -84,13 +88,15 @@ class PongGame{
   
   void startGame(){  //Run ping-pong game
       b1.move();
-    
+    println(b1.speedX);
     //bouce of paddle
-    if(b1.x<p1.x+35&& b1.y > p1.y-75 && b1.y< p1.y+75){
+    if(b1.x-25<p1.x+10&& b1.y > p1.y-75 && b1.y< p1.y+75&&p1.coolDown>2){
        p1.bouce_ball(b1);
-     }else if(b1.x>p2.x-35&& b1.y > p2.y-75 && b1.y< p2.y+75){
+     }else if(b1.x+25>p2.x-10&& b1.y > p2.y-75 && b1.y< p2.y+75&&p2.coolDown>2){
        p2.bouce_ball(b1);
      }
+     p1.coolDown ++;
+     p2.coolDown ++;
     
     //boucing ball when touch top screen
      if(b1.y<0 || b1.y > height){
@@ -120,7 +126,9 @@ void draw(){
   background(0);
   engine.draw();
   engine.startGame();
-}
-void mouseDragged(){
   engine.movePaddle();
+
 }
+//void mouseDragged(){
+//  engine.movePaddle();
+//}
