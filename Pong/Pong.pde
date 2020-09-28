@@ -128,6 +128,3 @@ void draw(){
   engine.movePaddle();
 
 }
-//void mouseDragged(){
-//  engine.movePaddle();
-//}
