@@ -88,7 +88,6 @@ class PongGame{
   
   void startGame(){  //Run ping-pong game
       b1.move();
-    println(b1.speedX);
     //bouce of paddle
     if(b1.x-25<p1.x+10&& b1.y > p1.y-75 && b1.y< p1.y+75&&p1.coolDown>2){
        p1.bouce_ball(b1);
